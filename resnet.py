@@ -113,7 +113,7 @@ def resnet():
     block4 = _residual_block(block_fn, nb_filters=512, repetations=3)(block3)
 
     # Classifier block
-    pool2 = AveragePooling2D(pool_size=(7, 7), strides=(1, 1), border_mode="same")(block4)
+    pool2 = AveragePooling2D(pool_size=(7, 7), strides=(7, 7), border_mode="same")(block4)
     flatten1 = Flatten()(pool2)
     dense = Dense(output_dim=1000, init="he_normal", activation="softmax")(flatten1)
 
@@ -126,17 +126,17 @@ def main():
     start = time.time()
     model = resnet()
     duration = time.time() - start
-    print "{} s to make model".format(duration)
+    print("{} s to make model".format(duration))
 
     start = time.time()
     model.output
     duration = time.time() - start
-    print "{} s to get output".format(duration)
+    print("{} s to get output".format(duration))
 
     start = time.time()
     model.compile(loss="categorical_crossentropy", optimizer="sgd")
     duration = time.time() - start
-    print "{} s to get compile".format(duration)
+    print("{} s to get compile".format(duration))
 
     current_dir = os.path.dirname(os.path.realpath(__file__))
     model_path = os.path.join(current_dir, "resnet_50.png")
